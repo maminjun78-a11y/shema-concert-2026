@@ -299,7 +299,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var
 <script>
 const $=id=>document.getElementById(id);
 // 연주곡
-const VID=["SLuPosnVWWE", "zJ6qEk85Mmk", "Je6zqfq33Yc", "wJhNgweRl2k", "0v5PYIvh1gc", "dGo5LTEuz84", "29vcL4wVQ4c", "zq-9Oe5_V0A", "unYvk9nOHXI"];
+const VID=["SLuPosnVWWE", "zJ6qEk85Mmk", "Je6zqfq33Yc", "HvAX6Ov4AxU", "0v5PYIvh1gc", "dGo5LTEuz84", "29vcL4wVQ4c", "zq-9Oe5_V0A", "unYvk9nOHXI"];
 const songs=[
  ['Part I','FIRST HALF'],
  ['Sousa March Carnival','','John Philip Sousa 작곡 / Naohiro Iwai 편곡','존 필립 수자의 유명한 행진곡 사관후보생, 엘 캡틴, 뇌신(천둥의 신), 성조기여 영원하라 4곡을 이와이 나오히로가 라틴 아메리카의 대표적 리듬인 삼바와 차차차를 가미하여 편곡한 메들리로서 경쾌하고 발랄한 곡입니다. 행진곡의 특성상 주로 군대, 학창 시절 제식 훈련 때 절도 있는 멜로디와 리듬으로 우리에게 친숙했던 곡이지만, 이번에 연주하는 곡에서는 라틴 아메리카의 경쾌한 리듬으로 변환하여 자유롭고 신나는 축제 분위기로 여러분을 안내할 것입니다.'],
@@ -394,7 +394,7 @@ $('share').onclick=()=>copy(location.href.split('#')[0]);
 document.addEventListener('click',e=>{const b=e.target.closest('.listen');if(!b)return;
   document.querySelectorAll('.vbox').forEach(x=>x.innerHTML='');
   a.pause();ui();
-  b.nextElementSibling.innerHTML=`<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.v}?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="연주 영상"></iframe></div><a class="yt" href="https://www.youtube.com/watch?v=${b.dataset.v}" target="_blank" rel="noopener">영상이 안 나오면 유튜브에서 보기 ›</a>`;
+  b.nextElementSibling.innerHTML=`<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.v}?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="연주 영상"></iframe></div><div class="yt">소리가 안 나면 영상 가운데 ▶를 한 번 더 눌러 주세요.</div><a class="yt" href="https://www.youtube.com/watch?v=${b.dataset.v}" target="_blank" rel="noopener">영상이 안 나오면 유튜브에서 보기 ›</a>`;
 });
 // 크게 보기
 let cur=0,list=photos;
