@@ -78,6 +78,11 @@ details.song summary::-webkit-details-marker{display:none}
 .pl{flex-shrink:0;color:var(--gold);font-size:22px;line-height:1;margin-top:6px;transition:transform .2s}
 details[open] .pl{transform:rotate(45deg)}
 .note{padding:0 0 16px 40px;font-size:16px;color:#3e3430}
+.listen{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:10px 18px;border-radius:999px;border:0;background:var(--wine);color:#fff;font:inherit;font-size:15px;font-weight:700}
+.vid{position:relative;width:100%;aspect-ratio:16/9;margin-top:12px;border-radius:10px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt{display:inline-block;margin-top:6px;font-size:14px;color:var(--sub)}
+.play-all{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;margin:4px 0 8px;border-radius:12px;border:1px solid var(--wine);background:transparent;color:var(--wine);font:inherit;font-size:16px;font-weight:700}
 .inter{text-align:center;letter-spacing:.35em;color:var(--sub);font-size:13px;margin:18px 0 4px}
 .tip{text-align:center;font-size:14px;color:var(--sub);margin-top:10px}
 
@@ -228,7 +233,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var
   <div class="lat">programs</div>
   <h2>연주곡</h2>
   <div class="orn">✦</div>
-  <p class="tip" style="margin-top:-8px">곡 이름을 누르면 곡 설명이 나와요</p>
+  <p class="tip" style="margin-top:-8px">곡 이름을 누르면 설명과 연주 영상이 나와요</p>
   <div id="songs"></div>
 </div></section>
 
@@ -294,6 +299,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var
 <script>
 const $=id=>document.getElementById(id);
 // 연주곡
+const VID=["SLuPosnVWWE", "zJ6qEk85Mmk", "Je6zqfq33Yc", "wJhNgweRl2k", "0v5PYIvh1gc", "dGo5LTEuz84", "29vcL4wVQ4c", "zq-9Oe5_V0A", "unYvk9nOHXI"];
 const songs=[
  ['Part I','FIRST HALF'],
  ['Sousa March Carnival','','John Philip Sousa 작곡 / Naohiro Iwai 편곡','존 필립 수자의 유명한 행진곡 사관후보생, 엘 캡틴, 뇌신(천둥의 신), 성조기여 영원하라 4곡을 이와이 나오히로가 라틴 아메리카의 대표적 리듬인 삼바와 차차차를 가미하여 편곡한 메들리로서 경쾌하고 발랄한 곡입니다. 행진곡의 특성상 주로 군대, 학창 시절 제식 훈련 때 절도 있는 멜로디와 리듬으로 우리에게 친숙했던 곡이지만, 이번에 연주하는 곡에서는 라틴 아메리카의 경쾌한 리듬으로 변환하여 자유롭고 신나는 축제 분위기로 여러분을 안내할 것입니다.'],
@@ -313,7 +319,7 @@ songs.forEach(s=>{
   if(s.length==1){S.insertAdjacentHTML('beforeend','<div class="inter">INTERMISSION</div>');return}
   if(s.length==2){S.insertAdjacentHTML('beforeend',`<div class="part">${s[0]} <small>${s[1]}</small></div>`);return}
   n++;const ko=/[가-힣]/.test(s[0]);
-  S.insertAdjacentHTML('beforeend',`<details class="song"><summary><span class="no">${n}</span><span class="st"><b class="${ko?'ko':''}">${s[0]}</b>${s[1]?`<em>${s[1]}</em>`:''}<small>${s[2]}</small></span><span class="pl">+</span></summary><div class="note">${s[3]}</div></details>`);
+  S.insertAdjacentHTML('beforeend',`<details class="song"><summary><span class="no">${n}</span><span class="st"><b class="${ko?'ko':''}">${s[0]}</b>${s[1]?`<em>${s[1]}</em>`:''}<small>${s[2]}</small></span><span class="pl">+</span></summary><div class="note">${s[3]}<br><button class="listen" data-v="${VID[n-1]}">▶ 연주 들어보기</button><div class="vbox"></div></div></details>`);
 });
 // 단원
 const mem=[['Conductor','전인배'],['Piccolo','김학일'],['Flute','이정란, 권오련, 황영일, 김정민'],['Oboe','유성근, 김현수, 한성효'],['Clarinet','김경훈(악장), 강영수, 김윤성, 구범서, 최복수, 최중길, 어경만, 박덕실, 김택연, 김은정'],['Bassoon','백서영, 최영순'],['Alto Saxophone','최종훈, 윤주원, 남기봉, 윤인옥, 김명규'],['Tenor Saxophone','조만용, 백은식'],['Baritone Saxophone','이병언'],['Horn','박완우, 최정은, 전은정'],['Trumpet','신영태, 이창수, 서호직(총무), 김영민, 강명규, 이동주'],['Trombone','김종진, 박봉기, 이재복, 연건희, 강은정, 유창준'],['Euphonium','이승환, 김요섭'],['Tuba','김문일, 박영순(단장)'],['Percussion','허미자, 김병선, 송무건, 박영세']];
@@ -384,6 +390,12 @@ let tt;function say(t){const e=$('toast');e.textContent=t;e.hidden=false;clearTi
 async function copy(t){try{await navigator.clipboard.writeText(t);say('복사했어요: '+t)}catch(e){say(t)}}
 document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(b.dataset.copy));
 $('share').onclick=()=>copy(location.href.split('#')[0]);
+// 연주 영상
+document.addEventListener('click',e=>{const b=e.target.closest('.listen');if(!b)return;
+  document.querySelectorAll('.vbox').forEach(x=>x.innerHTML='');
+  a.pause();ui();
+  b.nextElementSibling.innerHTML=`<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.v}?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="연주 영상"></iframe></div><a class="yt" href="https://www.youtube.com/watch?v=${b.dataset.v}" target="_blank" rel="noopener">영상이 안 나오면 유튜브에서 보기 ›</a>`;
+});
 // 크게 보기
 let cur=0,list=photos;
 function show(l,i){list=l;cur=(i+l.length)%l.length;$('lbi').src=list[cur];$('lb').hidden=false;$('lbp').parentNode.hidden=l.length<2}
